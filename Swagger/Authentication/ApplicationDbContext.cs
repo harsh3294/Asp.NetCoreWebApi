@@ -16,5 +16,7 @@ namespace Swagger.Authentication
         {
             base.OnModelCreating(builder);
         }
+        public DbSet<Person> Persons { get; set; }
+
     }
 }

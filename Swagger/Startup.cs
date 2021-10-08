@@ -47,9 +47,12 @@ namespace Swagger
                  options.OperationFilter<SecurityRequirementsOperationFilter>();
              });*/
             services.AddControllers();
+
             // For Entity Framework  
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
 
+            services.AddTransient<IRepository<Person>, RepositoryPerson>();
+            services.AddTransient<PersonService, PersonService>();
             // For Identity  
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

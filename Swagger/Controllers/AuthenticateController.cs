@@ -83,7 +83,61 @@ namespace Swagger.Controllers
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+            if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            if (!await roleManager.RoleExistsAsync(UserRoles.InstitueAdmin))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.InstitueAdmin));
+            if (!await roleManager.RoleExistsAsync(UserRoles.SubAdmin))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.SubAdmin));
+            if (!await roleManager.RoleExistsAsync(UserRoles.SuperAdmin))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.SuperAdmin));
+            if (!await roleManager.RoleExistsAsync(UserRoles.Teacher))
+                await roleManager.CreateAsync(new IdentityRole(UserRoles.Teacher));
 
+            switch (model.Role)
+            {
+                case "Admin":
+                    if (await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    {
+                        await userManager.AddToRoleAsync(user, UserRoles.Admin);
+                    }
+                    break;
+                case "User":
+                    if (await roleManager.RoleExistsAsync(UserRoles.User))
+                    {
+                        await userManager.AddToRoleAsync(user, UserRoles.User);
+                    }
+                    break;
+                case "InstitueAdmin":
+                    if (await roleManager.RoleExistsAsync(UserRoles.InstitueAdmin))
+                    {
+                        await userManager.AddToRoleAsync(user, UserRoles.InstitueAdmin);
+                    }
+                    break;
+                case "SubAdmin":
+                    if (await roleManager.RoleExistsAsync(UserRoles.SubAdmin))
+                    {
+                        await userManager.AddToRoleAsync(user, UserRoles.SubAdmin);
+                    }
+                    break;
+                case "SuperAdmin":
+                    if (await roleManager.RoleExistsAsync(UserRoles.SuperAdmin))
+                    {
+                        await userManager.AddToRoleAsync(user, UserRoles.SuperAdmin);
+                    }
+                    break;
+                case "Teacher":
+                    if (await roleManager.RoleExistsAsync(UserRoles.Teacher))
+                    {
+                        await userManager.AddToRoleAsync(user, UserRoles.Teacher);
+                    }
+                    break;
+                default:
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "InvalidRole" });
+                    break;
+            }
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swagger.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Swagger.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
+        [Authorize(Roles = UserRoles.Teacher)]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

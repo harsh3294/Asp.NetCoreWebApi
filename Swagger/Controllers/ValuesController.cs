@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Swagger.Authentication;
 using Swagger.Models;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace Swagger.Controllers
         }
 
         // GET api/values  
+        [Authorize(Roles = UserRoles.SuperAdmin)]
         [HttpGet]
         public ActionResult<Dictionary<int, string>> Get()
         {
@@ -35,6 +37,7 @@ namespace Swagger.Controllers
         }
 
         // GET api/values/5  
+        [Authorize(Roles = UserRoles.InstitueAdmin)]
 
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
